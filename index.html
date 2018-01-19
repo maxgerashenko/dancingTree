@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Sample "Hello, World" Application</title>
+    <link rel="stylesheet" type="text/css" href="src/main.css">
+  </head>
+  
+  <body bgcolor=white>
+	<div id="container">
+		<canvas id="canvas" width="400" height="400">
+    	
+    	</canvas>
+
+    	<p>Hey, lets make tree dance</p>
+
+      <div class="slidecontainer">
+        <input type="range" min="30" value="90" max="150" class="slider" id="myRange">
+        <p>Branch length: <span id="demo"></span></p>
+      </div>
+      <button onClick = "resetOnClick(event)">Reset</button>
+      <button onClick = "toggleAnimation(this)">Animation ON</button>
+
+  <script type="text/javascript" src="src/canvas.js"></script>
+  <script type="text/javascript" src="src/handlers.js"></script>
+  <script type="text/javascript" src="src/app.js"></script>
+  </body>
+</html>
