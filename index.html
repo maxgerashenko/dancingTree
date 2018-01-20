@@ -13,11 +13,22 @@
     	<p>Hey, lets make tree dance</p>
 
       <div class="slidecontainer">
-        <input type="range" min="30" value="90" max="150" class="slider" id="myRange">
-        <p>Branch length: <span id="demo"></span></p>
+        <input id="slider_len" type="range" min="30" value="40" max="150" class="slider" >
+        <p>Branch length: <span id="value_len"></span></p>
+      </div>
+      <div class="slidecontainer">
+        <input id="slider_angle" type="range" min="0" value="0.45" max="3.25" step="0.01" class="slider" >
+        <p>Angle: <span id="value_angle"></span></p>
+      </div>
+      <div class="slidecontainer">
+        <input id="slider_grow" type="range" min="0" value="0.73" max="0.8" class="slider" step="0.005">
+        <p>Length coef: <span id="value_grow"></span></p>
+      </div>
+      <div class="slidecontainer">
+        <input id="slider_rotation" type="range" min="-90" value="0" max="90" class="slider" step="1">
+        <p>Rotation: <span id="value_rotation"></span></p>
       </div>
       <button onClick = "resetOnClick(event)">Reset</button>
-      <button onClick = "toggleAnimation(this)">Animation ON</button>
 
   <script type="text/javascript" src="src/canvas.js"></script>
   <script type="text/javascript" src="src/handlers.js"></script>

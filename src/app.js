@@ -2,95 +2,74 @@
 
 console.log("Start Party...");
 
-const canvasDiv = document.getElementById("canvas");
-var context = canvasDiv.getContext("2d");
-
+// Constants
 const H = 400;
 const W = 400;
 const GREEN = '#83c785';
 const BLACK = '#000000'
 const GOLD_RATIO = 0.61803398875;
+const ANTI_GOLD_RATIO = 1.61803398875;
 
-let X_AXE = 0;
-let Y_AXE = 0;
+// Canvas definition
+const canvasDiv = document.getElementById("canvas");
+var context = canvasDiv.getContext("2d");
+context.lineWidth = 2;
+context.lineCap = 'round';
 
-let coord = {x: 0, y: 0};
-const history = [{x: W/2, y:H/2}];
+// States
+let history = [];
 let timeouts = [];
-
-
 let isRequest = false;
 let isAnimation = true
 let DELAY = 500;
 
-const drawBranch = (length) => {
-	console.log(`...draw branch ${length}`)
-	context.beginPath();
-
-	context.lineWidth=3;
-	context.lineCap = 'round';
-	//moveTo bottom center of canvas;
-	
-// 	context.save();
-	moveCursor({x:0, y: 0});
-	
-// 	let rotation_x = history[history.length-1].x;
-// 	let rotation_y = history[history.length-1].y;
-// 	context.translate(rotation_x, rotation_y); 
-// 	context.rotate( (Math.PI / 180) * 30);  //rotate 30    degrees.
-	
-	lineTo({x:0, y: length});
-	context.strokeStyle = (context.strokeStyle === GREEN) 
-		? BLACK 
-		: GREEN ;
-		
-	context.stroke();
-
-// 	context.restore();
-
-	let newLenght = Math.round(length * GOLD_RATIO);
-	
-	if(newLenght < 5){
-		isRequest = false;
-		return true
-	}
-
-// 	history.pop();
-
-	if (isAnimation) {
-		let timeOutId = setTimeout( () => {
-				drawBranch(newLenght);
-			}, DELAY)
-		timeouts.push(timeOutId);
-	}   else {
-		drawBranch(newLenght);
-	}	
-}
-
-
-
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
-output.innerHTML = slider.value;
+value_len.innerHTML = slider_len.value;
 
 const draw = (length) => {
 	resetCanvas();
 	drawBranch(length);
 }
 
-draw(slider.value);
+function drawBranch(startX, startY, len, len_coef, angle, orientation_angle, isFirst = false) {
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
+	console.log(`Draw branch ${len}`)
+	context.beginPath();
+	context.save();
 
-  if(!isRequest) {
-  	isRequest = true;
- 	isRequest = !draw(this.value);
-  } else {
-  	timeouts.forEach( (i) => {
-		clearTimeout(i);
-	} )		
-  	resetCanvas();
-  	draw(this.value)
-  }
+	let angel_index = (isFirst) ? 0 : 1;
+
+	context.translate(startX, startY);
+
+	context.rotate((angle * angel_index) + orientation_angle * Math.PI/180);
+
+	context.moveTo(0, 0);  		//line start
+	context.lineTo(0, -len);	//line end;
+	context.stroke();			//draw
+
+
+	if(len < 10) {
+		context.restore();
+		return;
+	}
+
+	let l_angle = angle;
+	let r_angle = -angle;
+
+	if(orientation_angle != 0 ){		 
+		l_angle = (orientation_angle > 0) ? angle*0.01 : (orientation_angle-angle)*0.01
+		r_angle = (orientation_angle > 0) ? (orientation_angle-angle)*0.005 : angle*0.01;
+	}
+
+	// draw2(0, -len, len*0.8, -15);
+	const new_len = Math.round(len*len_coef);
+	drawBranch(0, -len, new_len, len_coef, r_angle, orientation_angle);
+	drawBranch(0, -len, new_len, len_coef, l_angle, orientation_angle);
+	// drawBranch(0, -len, new_len, orientation_angle-angle*GOLD_RATIO, orientation_angle, iterations_val)
+	// drawBranch(0, -len, new_len, orientation_angle+angle/3, orientation_angle, iterations_val)
+
+	context.restore();
 }
+
+updateCanvas();
