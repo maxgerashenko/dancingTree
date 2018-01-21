@@ -34,7 +34,6 @@ const draw = (length) => {
 
 function drawBranch(startX, startY, len, len_coef, angle, orientation_angle, isFirst = false) {
 
-	console.log(`Draw branch ${len}`)
 	context.beginPath();
 	context.save();
 
@@ -47,7 +46,6 @@ function drawBranch(startX, startY, len, len_coef, angle, orientation_angle, isF
 	context.moveTo(0, 0);  		//line start
 	context.lineTo(0, -len);	//line end;
 	context.stroke();			//draw
-
 
 	if(len < 10) {
 		context.restore();
@@ -62,14 +60,54 @@ function drawBranch(startX, startY, len, len_coef, angle, orientation_angle, isF
 		r_angle = (orientation_angle > 0) ? (orientation_angle-angle)*0.005 : angle*0.01;
 	}
 
-	// draw2(0, -len, len*0.8, -15);
 	const new_len = Math.round(len*len_coef);
 	drawBranch(0, -len, new_len, len_coef, r_angle, orientation_angle);
 	drawBranch(0, -len, new_len, len_coef, l_angle, orientation_angle);
-	// drawBranch(0, -len, new_len, orientation_angle-angle*GOLD_RATIO, orientation_angle, iterations_val)
-	// drawBranch(0, -len, new_len, orientation_angle+angle/3, orientation_angle, iterations_val)
 
 	context.restore();
 }
 
-updateCanvas();
+function smooth_update(inTime, property, value){
+	console.log(value);
+	const STEPS = 20;
+	let step = Math.abs((window['slider_'+property].value - value) / STEPS);
+
+	let intervalId = setInterval( () => {
+		window['slider_'+property].value = 
+			(window['slider_'+property].value < value)
+			? +window['slider_'+property].value + step + ''
+			: window['slider_'+property].value = +window['slider_'+property].value - step + '';
+		window['value_'+property].innerHTML = window['slider_'+property].value + '';
+		updateCanvas();
+	}, inTime / STEPS);
+
+	setTimeout(()=>{
+		clearInterval(intervalId);
+	}, inTime + 500);
+}
+
+function go(){
+	setInterval( ()=> {
+		let direction = Math.random();
+		let power = Math.round(Math.random() * 10);
+		let new_value;
+
+		power = (power>0.5) ? 1 : 0.5;
+		if(direction > 0.5) {
+			new_value = +slider_len.value + (power *10* (150/100));
+		} else {
+			new_value = +slider_len.value - (power *10* (150/100));
+		}
+
+		smooth_update(1000, 'len', new_value);
+	}, 1000);
+}
+
+go();
+
+
+
+
+
+
+
