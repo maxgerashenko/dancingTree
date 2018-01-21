@@ -1,24 +1,16 @@
-'use-strict'
-
-const slider_len = document.getElementById("slider_len");
-const value_len = document.getElementById("value_len");
-const slider_angle = document.getElementById("slider_angle");
-const value_angle = document.getElementById("value_angle");
-const slider_rotation = document.getElementById("slider_rotation");
-const value_rotation = document.getElementById("value_rotation");
-
-value_len.innerHTML = slider_len.value;
-value_angle.innerHTML = slider_angle.value;
-value_grow.innerHTML = slider_grow.value;
-value_rotation.innerHTML = slider_rotation.value;
 
 slider_len.oninput = function() {
-  	value_len.innerHTML = this.value;
+  	set_slider_len(this.value)
 	updateCanvas()
 }
 
 slider_angle.oninput = function() {
   	value_angle.innerHTML = this.value;
+
+  	let wave_types =["sine", "sawtooth", "square", "sawtooth", "triangle"];
+  	console.log(wave_types[this.value*100 % wave_types.length]);
+  	oscillator.type = wave_types[this.value*100 % wave_types.length];
+
 	updateCanvas()
 }
 
@@ -35,10 +27,10 @@ slider_rotation.oninput = function() {
 
 function resetOnClick() {
 	resetCanvas();
-	drawBranch(slider.value);
+	updateCanvas();
 }
 
-function updateCanvas(){
+function updateCanvas() {
 	resetCanvas();
 	drawBranch(
 		200,
@@ -50,3 +42,66 @@ function updateCanvas(){
 		true
 	);
 }
+
+function onTreeSound(event) {
+	let title;
+
+	if (event.target.innerText === "Tree sound ON"){
+		title = "Tree sound OFF";
+		gainNode.disconnect(audioCtx.destination);
+	} else {
+		title ="Tree sound ON";
+		gainNode.connect(audioCtx.destination);
+	}
+	event.target.innerText = title;
+}
+
+function onGo(event) {
+	let title;
+
+	if (event.target.innerText === "Go random"){
+		title = "Stop random";
+		random_go();
+	} else {
+		title ="Go random";
+		random_stop();
+	}
+	event.target.innerText = title;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

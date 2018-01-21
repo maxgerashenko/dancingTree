@@ -67,17 +67,37 @@ function drawBranch(startX, startY, len, len_coef, angle, orientation_angle, isF
 	context.restore();
 }
 
+function updateCanvas(){
+	resetCanvas();
+	drawBranch(
+		200,
+		400,
+		slider_len.value,
+		slider_grow.value,
+		slider_angle.value,
+		slider_rotation.value,
+		true
+	);
+}
+
+const setters_set = {
+	len: set_slider_len,
+
+}
+
 function smooth_update(inTime, property, value){
 	console.log(value);
 	const STEPS = 20;
 	let step = Math.abs((window['slider_'+property].value - value) / STEPS);
 
 	let intervalId = setInterval( () => {
-		window['slider_'+property].value = 
-			(window['slider_'+property].value < value)
-			? +window['slider_'+property].value + step + ''
+		let new_value = (window['slider_'+property].value < value)
+			? window['slider_'+property].value = +window['slider_'+property].value + step + ''
 			: window['slider_'+property].value = +window['slider_'+property].value - step + '';
-		window['value_'+property].innerHTML = window['slider_'+property].value + '';
+
+
+		setters_set[property](new_value)
+
 		updateCanvas();
 	}, inTime / STEPS);
 
@@ -86,8 +106,9 @@ function smooth_update(inTime, property, value){
 	}, inTime + 500);
 }
 
-function go(){
-	setInterval( ()=> {
+let goId;
+function random_go(){
+	goId = setInterval( ()=> {
 		let direction = Math.random();
 		let power = Math.round(Math.random() * 10);
 		let new_value;
@@ -103,7 +124,22 @@ function go(){
 	}, 1000);
 }
 
-go();
+/**
+ * Setters
+ */
+function random_stop(){
+	clearInterval(goId);
+}
+
+function set_slider_len(value){
+	value_len.innerHTML = value;
+	oscillator.frequency.value = (value-30)*30/150 * (10000/100); // value in hertz
+}
+
+updateCanvas();
+oscillator.start();
+// gainNode.disconnect(audioCtx.destination);
+// random_go();
 
 
 

@@ -7,5 +7,5 @@ const resetCanvas = () => {
 
 	// Use the identity matrix while clearing the canvas
 	context.setTransform(1, 0, 0, 1, 0, 0);
-	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.clearRect(0, 0, 400, 400);
 }
