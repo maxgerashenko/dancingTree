@@ -9,11 +9,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
   </head>
   
   <body bgcolor=white>
 
 	<div id="container">
+
 		  <p>Drag & Drop your music for tree</p>
       <div id="drop-zone" class="hidden">Drag &amp; Drop Files Here</div>
       
@@ -22,7 +24,7 @@
       <canvas id="canvas" width="400" height="400">
     	
 	  </canvas>
-
+      <audio id="myAudio" src="SoundHelix-Song-1.mp3"></audio>
       <p>Hey, lets make tree dance</p>
   
       <div id="buttons">
@@ -31,7 +33,7 @@
         <a class="ph-button ph-btn-green" onClick = "onTreeSound(event)">Tree sound ON</a>
       </div>
       <div class="slidecontainer">
-        <input id="slider_len" type="range" min="30" value="40" max="150" class="slider" >
+        <input id="slider_len" type="range" min="10" value="40" max="150" class="slider" >
         <p>Branch length: <span id="value_len"></span></p>
       </div>
       <div class="slidecontainer">
@@ -40,7 +42,7 @@
       </div>
       <div class="slidecontainer">
         <input id="slider_grow" type="range" min="0" value="0.73" max="0.8" class="slider" step="0.005">
-        <p>Length coef: <span id="value_grow"></span></p>
+        <p>Grow: <span id="value_grow"></span></p>
       </div>
       <div class="slidecontainer">
         <input id="slider_rotation" type="range" min="-90" value="0" max="90" class="slider" step="1">

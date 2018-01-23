@@ -9,7 +9,7 @@ slider_angle.oninput = function() {
 
   	let wave_types =["sine", "sawtooth", "square", "sawtooth", "triangle"];
   	console.log(wave_types[this.value*100 % wave_types.length]);
-  	oscillator.type = wave_types[this.value*100 % wave_types.length];
+//   	oscillator.type = wave_types[this.value*100 % wave_types.length];
 
 	updateCanvas()
 }

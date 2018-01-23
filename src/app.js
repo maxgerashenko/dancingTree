@@ -133,11 +133,11 @@ function random_stop(){
 
 function set_slider_len(value){
 	value_len.innerHTML = value;
-	oscillator.frequency.value = (value-30)*30/150 * (10000/100); // value in hertz
+	// oscillator.frequency.value = (value-30)*30/150 * (10000/100); // value in hertz
 }
 
 updateCanvas();
-oscillator.start();
+// oscillator.start();
 // gainNode.disconnect(audioCtx.destination);
 // random_go();
 

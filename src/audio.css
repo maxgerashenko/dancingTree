@@ -1,0 +1,8 @@
+audio {
+    position: fixed;
+    top: 2.5vh;
+    width: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+}

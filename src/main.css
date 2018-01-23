@@ -10,4 +10,12 @@
 
 *{
 	transition: all .5s;
+	font-family: Neucha;
+}
+
+p{
+    margin-top: 1vh;
+    padding-left: 5px;
+    font-size: medium;
+    color: #2d2d1e;
 }
