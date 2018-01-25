@@ -101,11 +101,9 @@ class Updater {
 		return {avg, low_avg, middle_avg, hight_avg}
 	}	
 
-	__scaleValues(Input, output_config, InputLow = BAND_CONFIG.min, InputHigh = BAND_CONFIG.max){
+	__scaleValues(Input, config){
 			//Result := ((Input - InputLow) / (InputHigh - InputLow)) * (OutputHigh - OutputLow) + OutputLow;
-			const result = ((Input - InputLow) / (InputHigh - InputLow)) * 
-						   (output_config.max - output_config.min) + 
-						    output_config.min;
+			const result = ((Input - config.input_min) / (config.input_max - config.input_min)) * (config.output_max - config.output_min) + config.output_min;
 			console.log(result);
 		return Math.round(result*1000)/1000;
 	}
@@ -117,6 +115,10 @@ class Updater {
 	}
 
 	render() {
+		let selector_len_value = $selector_len.find(":selected").text();
+		let selector_grow_value = $selector_grow.find(":selected").text();
+		let selector_angle_value = $selector_angle.find(":selected").text();
+		
 		const CONFIG_MAP = {
 			Avg: this.audio_FREQ.avg,
 			Low: this.audio_FREQ.low_avg,
@@ -124,14 +126,29 @@ class Updater {
 			Hight: this.audio_FREQ.hight_avg,
 		}
 
-		let len_config = {min: double_slider_len.old_from, max: double_slider_len.old_to};
-		let grow_config = {min: double_slider_grow.old_from, max: double_slider_grow.old_to};
-		let angle_config = {min: double_slider_angle.old_from, max: double_slider_angle.old_to};
+		let len_config = {
+			output_min: double_slider_len.old_from, 
+			output_max: double_slider_len.old_to,
+			input_min: BAND_CONFIG.min,
+			input_max: (selector_len_value === "Hight") ? 20 : BAND_CONFIG.max, 
+		};
+		let grow_config = {
+			output_min: double_slider_grow.old_from,
+			output_max: double_slider_grow.old_to,
+			input_min: BAND_CONFIG.min,
+			input_max: (selector_grow_value === "Hight") ? 20 : BAND_CONFIG.max,
+		};
+		let angle_config = {
+			output_min: double_slider_angle.old_from, 
+			output_max: double_slider_angle.old_to,
+			input_min: BAND_CONFIG.min,
+			input_max: (selector_angle_value === "Hight") ? 20 : BAND_CONFIG.max,
+		};
 		
 		
-		let len = this.__scaleValues(CONFIG_MAP[$selector_len.find(":selected").text()], len_config);
-		let angel = this.__scaleValues(CONFIG_MAP[$selector_angle.find(":selected").text()], angle_config);
-		let grow = this.__scaleValues(CONFIG_MAP[$selector_grow.find(":selected").text()], grow_config);
+		let len = this.__scaleValues(CONFIG_MAP[selector_len_value], len_config);
+		let angel = this.__scaleValues(CONFIG_MAP[selector_angle_value], angle_config);
+		let grow = this.__scaleValues(CONFIG_MAP[selector_grow_value], grow_config);
 
 		slider_len.value = value_len.innerHTML = len
 		slider_angle.value = slider_angle.innerHTML = angel;

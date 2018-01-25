@@ -54,4 +54,5 @@ canvas {
     position: sticky;
     top: 50px;
     z-index: 100;
+    left: 10px;
 }
