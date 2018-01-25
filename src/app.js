@@ -94,8 +94,6 @@ function smooth_update(inTime, property, value){
 		let new_value = (window['slider_'+property].value < value)
 			? window['slider_'+property].value = +window['slider_'+property].value + step + ''
 			: window['slider_'+property].value = +window['slider_'+property].value - step + '';
-
-
 		setters_set[property](new_value)
 
 		updateCanvas();
@@ -136,7 +134,36 @@ function set_slider_len(value){
 	// oscillator.frequency.value = (value-30)*30/150 * (10000/100); // value in hertz
 }
 
+
+
+try {
+	let analyser = new AudioAnalyser(MP3_PATH, NUM_BANDS, SMOOTHING);
+	if (analyser.enabled) {
+	    
+	    analyser.onUpdate = (bands) => {
+	        let results = bands;
+			let updater = new Updater(bands);
+			updater.render();
+			updateCanvas()
+	        return results;
+	      };
+	    };
+
+	    analyser.start();
+	    
+	    document.body.appendChild(analyser.audio);
+	} catch (error) {
+    	console.warm(`!!!! Erorr: ${error}`)
+	}
+
 updateCanvas();
+
+
+let lines = $('#lenTextarea').text().split('\n');
+for(let i = 0;i < lines.length;i++){
+    console.log(lines[i]);
+}
+
 // oscillator.start();
 // gainNode.disconnect(audioCtx.destination);
 // random_go();

@@ -1,30 +1,57 @@
-<html>
+<!doctype html>
+
+<head>
+ 
+  
+
+
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sample "Hello, World" Application</title>
+    
+    <!-- APP SYLES -->
     <link rel="stylesheet" type="text/css" href="src/button.css">
     <link rel="stylesheet" type="text/css" href="src/main.css">
     <link rel="stylesheet" type="text/css" href="src/file.css">
     <link rel="stylesheet" type="text/css" href="src/audio.css">
     <link rel="stylesheet" type="text/css" href="src/canvas.css">
 
+    <!-- JQUARY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>
+    
+    <!-- slider -->
+    <link href='https://necolas.github.io/normalize.css/7.0.0/normalize.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="libs/ionSlider/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="libs/ionSlider/ion.rangeSlider.skinFlat.css">
+    <script src="libs/ionSlider/ion.rangeSlider.js"></script>
+
+    <!-- Horizontal Slider -->
+    <link rel="stylesheet" type="text/css" href="libs/hozontalSelector/horizontal_selector.css">
+    <script src="libs/hozontalSelector/horizontal_selector.js"></script>
+
+    <!-- fonts -->
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
   </head>
   
   <body bgcolor=white>
 
 	<div id="container">
-
-		  <p>Drag & Drop your music for tree</p>
+      <!-- <iframe class="iframe" width="100%" height="465" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http://api.soundcloud.com/users/1539950/favorites&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false"></iframe> -->
+     <!--  <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F34019569&amp;auto_play=false&amp;show_artwork=false&amp;color=83c784"></iframe> -->
+		  
+      <p>Drag & Drop your music for tree</p>
       <div id="drop-zone" class="hidden">Drag &amp; Drop Files Here</div>
       
-      <div id="wave"></div>
+<!--       <div id="wave"></div> -->
 
       <canvas id="canvas" width="400" height="400">
-    	
-	  </canvas>
+    	</canvas>
+      
       <audio id="myAudio" src="SoundHelix-Song-1.mp3"></audio>
+      
       <p>Hey, lets make tree dance</p>
   
       <div id="buttons">
@@ -32,19 +59,72 @@
         <a class="ph-button ph-btn-green" onClick = "resetOnClick(event)">Reset</a>
         <a class="ph-button ph-btn-green" onClick = "onTreeSound(event)">Tree sound ON</a>
       </div>
+
       <div class="slidecontainer">
-        <input id="slider_len" type="range" min="10" value="40" max="150" class="slider" >
-        <p>Branch length: <span id="value_len"></span></p>
+        <p>
+          <label for="amount">Length config:</label>
+          <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
+        </p>
+        
       </div>
-      <div class="slidecontainer">
-        <input id="slider_angle" type="range" min="0" value="0.45" max="3.25" step="0.01" class="slider" >
-        <p>Angle: <span id="value_angle"></span></p>
+
+      <div class="config-contreller">
+        <div class="select-container">
+            <select id="selector-len" name="selectLen">
+              <option value="0" selected="selected">Avg</option>
+              <option value="1">Low</option>
+              <option value="2">Med</option>
+              <option value="3" >Hight</option>
+            </select>
+        </div>
+        <div class="slidecontainer">
+          <input id="double-slider-len" type="text" value="" name="range "/>
+          <input id="slider_len" type="range" min="10" value="40" max="150" class="slider" >
+          <p>Branch length: <span id="value_len"></span></p>
+        </div>
       </div>
+
+
+
+      <div class="config-contreller">
+        <div class="select-container">
+          <select id="selector-angle" name="selectAngle">
+            <option value="0">Avg</option>
+            <option value="1">Low</option>
+            <option value="2" selected="selected">Med</option>
+            <option value="3">Hight</option>
+          </select>
+        </div>      
+        <div class="slidecontainer">
+          <input id="double-slider-angle" type="text" value="" name="range "/>
+          <input id="slider_angle" type="range" min="0" value="0.45" max="3.25" step="0.01" class="slider" >
+          <p>Angle: <span id="value_angle"></span></p>
+        </div>
+      </div>
+
+
+
       <div class="slidecontainer">
-        <input id="slider_grow" type="range" min="0" value="0.73" max="0.8" class="slider" step="0.005">
+        <div class="select-container">
+          <select id="selector-grow" name="selectGrow">
+            <option value="0">Avg</option>
+            <option value="1">Low</option>
+            <option value="2" >Med</option>
+            <option value="3" selected="selected">Hight</option>
+          </select>
+        </div>     
+        <input id="double-slider-grow" type="text" value="" name="range "/>
+        <input id="slider_grow" type="range" min="0" value="0.73" max="0.8" class="slider" step="0.001">
         <p>Grow: <span id="value_grow"></span></p>
       </div>
+
+
       <div class="slidecontainer">
+        <textarea rows="4" cols="50" name="comment" form="usrform">
+          F = F +  20
+          LOW = 0
+          HIGHT = 150
+        </textarea>
         <input id="slider_rotation" type="range" min="-90" value="0" max="90" class="slider" step="1">
         <p>Rotation: <span id="value_rotation"></span></p>
       </div>

@@ -4,6 +4,7 @@
 
 .slidecontainer {
     width: 100%;
+    /* z-index: 0; */
 }
 
 .slider {
@@ -19,6 +20,7 @@
 
 .slider:hover {
     opacity: 1;
+    web-kit-user-select: none;
 }
 
 .slider::-webkit-slider-thumb {
